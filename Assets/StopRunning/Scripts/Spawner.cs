@@ -16,6 +16,7 @@ public class Spawner : MonoBehaviour
 
     public bool signalToSpawn;
     public bool signalToDestroy;
+    public float levelMoveSpeed;
 
     private int index;
 
@@ -31,6 +32,11 @@ public class Spawner : MonoBehaviour
 
         nextLevel = preFabList[index];
 
+        currLevel.GetComponent<LevelMovement>().SetMoveSpeed(levelMoveSpeed);
+
+        signalToSpawn = currLevel.GetComponent<LevelMovement>().GetSignalToSpawn();
+
+        signalToDestroy = currLevel.GetComponent<LevelMovement>().GetSignalToDestroy();
     }
 
     // Update is called once per frame
@@ -42,8 +48,9 @@ public class Spawner : MonoBehaviour
 
         if (signalToSpawn && spawnOnce)
         {
-            Debug.Log("Spawn Next Level");
+            //Debug.Log("Spawn Next Level");
             tmpLevel = Instantiate(nextLevel, spawnLocation, new Quaternion());
+            tmpLevel.GetComponent<LevelMovement>().SetMoveSpeed(levelMoveSpeed);
             signalToSpawn = false;
             spawnOnce = false;
             destroyOnce = true;
@@ -51,7 +58,7 @@ public class Spawner : MonoBehaviour
 
         if (signalToDestroy && destroyOnce)
         {
-            Debug.Log("Destroy Current Level");
+            //Debug.Log("Destroy Current Level");
             Destroy(currLevel);
 
             currLevel = tmpLevel;

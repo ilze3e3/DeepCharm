@@ -51,4 +51,9 @@ public class LevelMovement : MonoBehaviour
     {
         return signalToDestroy;
     }
+
+    public void SetMoveSpeed(float ms)
+    {
+        moveSpeed = ms;
+    }
 }

@@ -11,9 +11,8 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 5;
     public float jumpHeight = 5;
     public float sprintMulti = 2;
-
-    //private bool grounded;
-   
+    public bool shielded = false;
+ 
     // Start is called before the first frame update
     void Start()
     {
@@ -25,17 +24,36 @@ public class PlayerMovement : MonoBehaviour
     {
         move = Input.GetAxis("Horizontal") * moveSpeed;
 
-        if (Input.GetButtonDown("Jump") /*&& grounded == true*/) //Checks if the button is pressed on that frame and "jump" is assigned to a keybinding
+        if (Input.GetButtonDown("Jump")) //Checks if the button is pressed on that frame and "jump" is assigned to a keybinding
         {
             rb.velocity += Vector2.up * jumpHeight;
 
         }
-        if (Input.GetKey(KeyCode.LeftShift)) //Checks if the key is pressed at all and lets you hold
+        
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Obstacles")
         {
-
-            move *= sprintMulti;
+            Debug.Log("Player hit an obstacle");
+            if (shielded)
+            {
+                shielded = false;
+                // Change sprite
+            }
+            else
+            {
+                Debug.Log("Player Should Die");
+                Time.timeScale = 0;
+                // Spawn Game Over UI
+            }
         }
-
+        if(collision.gameObject.tag == "Shield_Powerup")
+        {
+            Destroy(collision.gameObject);
+            shielded = true;
+        }
     }
     /*
     private void FixedUpdate()
