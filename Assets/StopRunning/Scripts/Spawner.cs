@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-
     public List<GameObject> preFabList;
 
     public GameObject currLevel;
@@ -19,7 +18,6 @@ public class Spawner : MonoBehaviour
     public float levelMoveSpeed;
 
     private int index;
-
     [SerializeField]
     private bool spawnOnce = true;
     [SerializeField]
@@ -29,13 +27,9 @@ public class Spawner : MonoBehaviour
     {
         spawnLocation = spawnFlag.transform.position;
         index = (int)Random.Range(0, preFabList.Count);
-
         nextLevel = preFabList[index];
-
         currLevel.GetComponent<LevelMovement>().SetMoveSpeed(levelMoveSpeed);
-
         signalToSpawn = currLevel.GetComponent<LevelMovement>().GetSignalToSpawn();
-
         signalToDestroy = currLevel.GetComponent<LevelMovement>().GetSignalToDestroy();
     }
 
@@ -43,7 +37,6 @@ public class Spawner : MonoBehaviour
     void Update()
     {
         signalToSpawn = currLevel.GetComponent<LevelMovement>().GetSignalToSpawn();
-        
         signalToDestroy = currLevel.GetComponent<LevelMovement>().GetSignalToDestroy();
 
         if (signalToSpawn && spawnOnce)
@@ -55,7 +48,6 @@ public class Spawner : MonoBehaviour
             spawnOnce = false;
             destroyOnce = true;
         }
-
         if (signalToDestroy && destroyOnce)
         {
             //Debug.Log("Destroy Current Level");
